@@ -9,6 +9,7 @@ This directory contains simple Python scripts demonstrating fundamental programm
 - `debug_example.py` – Shows how to use the built-in debugger (`pdb`).
 - `dose_analysis.py` – Compute statistics for dose measurements stored in a CSV file.
 - `half_life_decay.py` – Command-line tool demonstrating dataclasses for decay calculations.
+- `contour_metrics_app.py` – Interactive exploration of contour comparison metrics.
 
 ## Running Examples
 
@@ -20,6 +21,7 @@ python3 oop_radiation.py
 python3 dose_analysis.py sample_doses.csv
 python3 half_life_decay.py Co60 1925 3.7e10 24
 python3 debug_example.py
+python3 contour_metrics_app.py
 ```
 
 `sample_doses.csv` contains example measurements for use with `dose_analysis.py`.

@@ -1,0 +1,10 @@
+name: medphys-bootcamp
+dependencies:
+  - python=3.10
+  - numpy
+  - pandas
+  - matplotlib
+  - scikit-image
+  - pytest
+  - streamlit>=2.0
+# pyscript served via CDN

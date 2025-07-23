@@ -1,0 +1,6 @@
+{
+  "task": "improve Python code",
+  "input": "{{file_contents}}",
+  "goal": "add educational comments for master's students in medical physics",
+  "output_format": "python"
+}

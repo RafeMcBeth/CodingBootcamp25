@@ -1,0 +1,12 @@
+{
+  "task": "write Python code",
+  "project": "radiation dose calculator",
+  "requirements": {
+    "inputs": ["dose rate (Gy/min)", "exposure time (min)"],
+    "outputs": ["total dose (Gy)", "safety warning if >2 Gy"],
+    "educational": "include detailed comments on radiation physics"
+  },
+  "language": "python",
+  "output_format": "code",
+  "tone": "educational and precise"
+}

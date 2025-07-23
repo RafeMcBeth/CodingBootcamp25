@@ -1,0 +1,11 @@
+{
+  "task": "define project structure",
+  "project": "educational medical physics app",
+  "type": "radiation dose calculator",
+  "requirements": {
+    "inputs": ["dose rate (Gy/min)", "exposure time (min)"],
+    "outputs": ["total dose (Gy)", "safety warning if >2 Gy"],
+    "educational": "include comments on radiation physics"
+  },
+  "output_format": "markdown"
+}

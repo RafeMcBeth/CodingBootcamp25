@@ -1,6 +1,6 @@
 # CodingBootcamp25 - From Zero to Medical Physics Applications 🚀
 
-**Go from "Hello World" to building real medical physics tools in just a few days!**
+**Go from "Hello World" to building real medical physics tools in a condensed, intensive session!**
 
 This intensive coding bootcamp is designed specifically for graduate medical physics students. You'll start with basic Python setup and rapidly progress to building functional applications that solve real problems in medical physics - from dose calculators to AI-powered image analysis tools.
 
@@ -17,9 +17,9 @@ By the end of this bootcamp, you'll have created:
 
 All content is organized with a logical progression:
 
-### 🌱 **Day 1: Python Foundations**
-**`00_setup/`** - Set up Python and your development environment  
-**`01_python_basics/`** - From "Hello World" to advanced programming concepts
+### 🌱 **Module 1: Python Foundations**
+**`medical-physics-bootcamp/00_setup/`** - Set up Python and your development environment  
+**`medical-physics-bootcamp/01_python_basics/`** - From "Hello World" to advanced programming concepts
 ```bash
 # Start here - your first program!
 python hello_world.py           # Basic syntax and variables
@@ -29,30 +29,30 @@ python debug_example.py         # Professional debugging skills
 python exercises.py             # Interactive practice exercises
 ```
 
-### 🔧 **Day 2: Build Your First App**  
-**`02_dose_calculator/`** - Create a working dose calculator with professional structure
+### 🔧 **Module 2: Build Your First App**  
+**`medical-physics-bootcamp/02_dose_calculator/`** - Create a working dose calculator with professional structure
 ```bash
 python app.py                   # Launch your first medical physics app!
 python dose_analysis.py sample_doses.csv  # Command-line data analysis
 python -m pytest tests/        # Run professional unit tests
 ```
 
-### 📊 **Day 3: Medical Image Processing**
-**`03_image_basics/`** - Analyze CT scans and apply image processing techniques
+### 📊 **Module 3: Medical Image Processing**
+**`medical-physics-bootcamp/03_image_basics/`** - Analyze CT scans and apply image processing techniques
 ```bash
 python ct_image_analysis.py     # Complete CT analysis workflow
 # Learn: Hounsfield units, thresholding, segmentation, dose overlays
 ```
 
-### 🤖 **Day 4: AI Integration**
-**`04_ai_demo/`** - Run machine learning inference on medical images
+### 🤖 **Module 4: AI Integration**
+**`medical-physics-bootcamp/04_ai_demo/`** - Run machine learning inference on medical images
 ```bash
 python ai_medical_inference.py  # Complete AI/ML demonstration
 # Learn: Classification, regression, anomaly detection, real-time inference
 ```
 
-### 🖥️ **Day 5: Professional GUIs**
-**`05_instructor_example/`** - Create polished applications with graphical interfaces
+### 🖥️ **Module 5: Professional GUIs**
+**`medical-physics-bootcamp/05_instructor_example/`** - Create polished applications with graphical interfaces
 
 ## 🚀 Quick Start - Single Path Setup
 
@@ -61,7 +61,7 @@ Get up and running in under 5 minutes:
 ```bash
 # 1. Clone the repository
 git clone <repo_url>
-cd CodingBootcamp25/medical-physics-bootcamp
+cd CodingBootcamp25-1/medical-physics-bootcamp
 
 # 2. Set up your Python virtual environment
 python -m venv medphys-env
@@ -86,17 +86,18 @@ python app.py
 
 ## 📚 Learning Modules - Clear Progression
 
-| Day | Module | What You'll Learn | Time | Key Files |
-|-----|--------|-------------------|------|-----------|
-| 1 | **Python Basics** | Variables, functions, OOP, debugging | 4-5 hours | `hello_world.py`, `basic_operations.py`, `oop_radiation.py`, `exercises.py` |
-| 2 | **Dose Calculator** | App structure, testing, CLI, data analysis | 4-5 hours | `app.py`, `dose_calculator.py`, `dose_analysis.py` |
-| 3 | **Image Processing** | CT analysis, Hounsfield units, segmentation | 4-5 hours | `ct_image_analysis.py` |
-| 4 | **AI Integration** | ML models, classification, prediction | 3-4 hours | `ai_medical_inference.py` |
-| 5 | **GUI Development** | Professional interfaces | 3-4 hours | `gui_dose_calculator.py` |
+| Module | Focus Area | What You'll Learn | Key Files |
+|--------|------------|-------------------|-----------|
+| **Python Basics** | Foundation | Variables, functions, OOP, debugging | `hello_world.py`, `basic_operations.py`, `oop_radiation.py`, `exercises.py` |
+| **Dose Calculator** | Application Development | App structure, testing, CLI, data analysis | `app.py`, `dose_calculator.py`, `dose_analysis.py` |
+| **Image Processing** | Medical Imaging | CT analysis, Hounsfield units, segmentation | `ct_image_analysis.py` |
+| **AI Integration** | Machine Learning | ML models, classification, prediction | `ai_medical_inference.py` |
+| **GUI Development** | User Interfaces | Professional interfaces | `gui_dose_calculator.py` |
 
 ## 🎓 Why This Works for Medical Physics Students
 
 - **Single clear path**: No confusion about where to start or what's next
+- **Flexible pacing**: Work through modules at your own speed - condensed or extended
 - **Pure Python**: No Jupyter notebook dependencies - just run Python files directly
 - **Virtual environments**: Industry-standard Python setup (no conda required)
 - **Real-world relevance**: Every example uses actual medical physics concepts
@@ -107,25 +108,25 @@ python app.py
 ## 🛠️ What's Included - Everything in One Place
 
 ### Complete Learning Path
-- **00_setup/**: Environment setup instructions
-- **01_python_basics/**: Core Python concepts with medical physics examples
+- **medical-physics-bootcamp/00_setup/**: Environment setup instructions
+- **medical-physics-bootcamp/01_python_basics/**: Core Python concepts with medical physics examples
   - `hello_world.py` - Your first program with radiation safety calculations
   - `basic_operations.py` - Functions, loops, conditionals with dose data
   - `oop_radiation.py` - Object-oriented programming with radioactive sources
   - `debug_example.py` - Professional debugging with dose rate calculations
   - `exercises.py` - Interactive practice problems
   - `half_life_decay.py` - Advanced dataclasses and command-line arguments
-- **02_dose_calculator/**: Complete application with tests and data analysis
+- **medical-physics-bootcamp/02_dose_calculator/**: Complete application with tests and data analysis
   - `app.py` - Main dose calculator application
   - `dose_calculator.py` - Core calculation logic
   - `dose_analysis.py` - CSV data processing with command-line interface
   - `sample_doses.csv` - Test data for analysis
-- **03_image_basics/**: Medical image processing
+- **medical-physics-bootcamp/03_image_basics/**: Medical image processing
   - `ct_image_analysis.py` - Complete CT workflow: windowing, segmentation, dose overlay
-- **04_ai_demo/**: AI/ML integration examples
+- **medical-physics-bootcamp/04_ai_demo/**: AI/ML integration examples
   - `ai_medical_inference.py` - Organ classification, dose prediction, QA anomaly detection
-- **05_instructor_example/**: Professional GUI applications
-- **extras/**: Bonus applications and advanced topics
+- **medical-physics-bootcamp/05_instructor_example/**: Professional GUI applications
+- **medical-physics-bootcamp/extras/**: Bonus applications and advanced topics
   - `contour_metrics_app.py` - Interactive medical image analysis tool
 
 ## 💡 Project Ideas
@@ -176,7 +177,7 @@ Python 3.8 or newer installed on your system.
 
 3. **Install dependencies:**
    ```bash
-   pip install -r requirements.txt
+   pip install -r medical-physics-bootcamp/requirements.txt
    ```
 
 4. **Verify installation:**
@@ -204,4 +205,4 @@ Python 3.8 or newer installed on your system.
 
 ---
 
-**Ready to transform your coding skills?** Start with `00_setup/setup_instructions.md` and follow the single clear path from beginner to building professional medical physics applications!
+**Ready to transform your coding skills?** Start with `medical-physics-bootcamp/00_setup/setup_instructions.md` and follow the single clear path from beginner to building professional medical physics applications! 

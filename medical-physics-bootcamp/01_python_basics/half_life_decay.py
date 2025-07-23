@@ -96,13 +96,23 @@ def main():
     """Main function with command-line interface."""
     parser = argparse.ArgumentParser(
         description="Calculate radioactive decay for medical physics applications",
-        epilog="Example: python half_life_decay.py Co-60 46000 3.7e10 8760"
+        epilog="Example: python half_life_decay.py Co-60 46000 3.7e10 8760\n"
+               "Run without arguments to see a demonstration with common isotopes."
     )
-    parser.add_argument("name", help="Isotope name (e.g., Co-60, Cs-137)")
-    parser.add_argument("half_life", type=float, help="Half-life in hours")
-    parser.add_argument("activity", type=float, help="Initial activity in Bq")
-    parser.add_argument("hours", type=float, help="Elapsed time in hours")
+    parser.add_argument("name", nargs='?', help="Isotope name (e.g., Co-60, Cs-137)")
+    parser.add_argument("half_life", nargs='?', type=float, help="Half-life in hours")
+    parser.add_argument("activity", nargs='?', type=float, help="Initial activity in Bq")
+    parser.add_argument("hours", nargs='?', type=float, help="Elapsed time in hours")
     args = parser.parse_args()
+
+    # If no arguments provided, show demonstration
+    if not all([args.name, args.half_life, args.activity, args.hours]):
+        print("🎯 No arguments provided - showing demonstration with common medical isotopes!\n")
+        print("💡 To calculate for a specific isotope, use:")
+        print("   python half_life_decay.py <name> <half_life_hours> <activity_bq> <elapsed_hours>")
+        print("   Example: python half_life_decay.py Co-60 46000 3.7e10 8760\n")
+        demonstrate_common_isotopes()
+        return
 
     # Create isotope object and calculate decay
     iso = Radioisotope(args.name, args.half_life, args.activity)
@@ -130,9 +140,9 @@ def main():
     time_to_1_percent = iso.time_to_activity(iso.initial_activity_bq * 0.01)
     print(f"Time to reach 1% activity: {time_to_1_percent:.1f} hours ({time_to_1_percent/24:.1f} days)")
     
-    # Demonstrate with common isotopes if no command line args
-    if len(args.name) < 10:  # Simple heuristic for demo
-        demonstrate_common_isotopes()
+    # Show additional demonstration
+    print("\n" + "="*50)
+    demonstrate_common_isotopes()
 
 
 if __name__ == "__main__":

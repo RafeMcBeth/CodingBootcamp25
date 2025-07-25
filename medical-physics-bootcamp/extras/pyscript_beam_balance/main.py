@@ -15,7 +15,6 @@ def draw():
 
     # draw healthy zone
     ctx.fillStyle = "#144"
-    ctx.fillRect(*healthy_zone, 0, h)
     ctx.fillRect(healthy_zone[0], 0, healthy_zone[1]-healthy_zone[0], h)
 
     # draw beam
@@ -30,6 +29,7 @@ def draw():
 
     # text
     ctx.fillStyle = "#eee"
+    ctx.font = "16px Arial"
     ctx.fillText(f"Dose penalty: {dose:.1f}", 10, 20)
 
 def loop(_):

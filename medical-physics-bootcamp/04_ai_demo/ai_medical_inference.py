@@ -383,21 +383,332 @@ def demonstrate_qa_anomaly_detection():
     return anomalies, qa_features
 
 
+def visualize_generated_data(organ_features, organ_labels, organ_feature_names, 
+                           dose_features, dose_rates, dose_feature_names):
+    """Visualize the characteristics of generated synthetic data.
+    
+    Args:
+        organ_features: Organ classification features
+        organ_labels: Organ type labels
+        organ_feature_names: Names of organ features
+        dose_features: Dose prediction features
+        dose_rates: Dose rate targets
+        dose_feature_names: Names of dose features
+    """
+    print("\n📊 VISUALIZING GENERATED DATA")
+    print("=" * 40)
+    
+    # Create a comprehensive visualization
+    plt.figure(figsize=(20, 12))
+    
+    # ===== ORGAN DATA VISUALIZATION =====
+    organ_types = np.unique(organ_labels)
+    colors = plt.cm.Set3(np.linspace(0, 1, len(organ_types)))
+    
+    # Organ feature distributions
+    plt.subplot(3, 4, 1)
+    for i, organ in enumerate(organ_types):
+        mask = organ_labels == organ
+        plt.hist(organ_features[mask, 0], alpha=0.6, label=organ, color=colors[i], bins=20)
+    plt.xlabel(organ_feature_names[0])
+    plt.ylabel('Count')
+    plt.title('Organ Area Distribution')
+    plt.legend()
+    
+    plt.subplot(3, 4, 2)
+    for i, organ in enumerate(organ_types):
+        mask = organ_labels == organ
+        plt.hist(organ_features[mask, 2], alpha=0.6, label=organ, color=colors[i], bins=20)
+    plt.xlabel(organ_feature_names[2])
+    plt.ylabel('Count')
+    plt.title('Organ Roundness Distribution')
+    plt.legend()
+    
+    # 2D scatter plot of organ features
+    plt.subplot(3, 4, 3)
+    for i, organ in enumerate(organ_types):
+        mask = organ_labels == organ
+        plt.scatter(organ_features[mask, 0], organ_features[mask, 1], 
+                   alpha=0.6, label=organ, color=colors[i], s=20)
+    plt.xlabel(organ_feature_names[0])
+    plt.ylabel(organ_feature_names[1])
+    plt.title('Organ Feature Space (Area vs Perimeter)')
+    plt.legend()
+    
+    # Organ feature correlation heatmap
+    plt.subplot(3, 4, 4)
+    correlation_matrix = np.corrcoef(organ_features.T)
+    im = plt.imshow(correlation_matrix, cmap='coolwarm', vmin=-1, vmax=1)
+    plt.colorbar(im)
+    plt.xticks(range(len(organ_feature_names)), 
+               [name[:8] for name in organ_feature_names], rotation=45)
+    plt.yticks(range(len(organ_feature_names)), 
+               [name[:8] for name in organ_feature_names])
+    plt.title('Organ Feature Correlations')
+    
+    # ===== DOSE DATA VISUALIZATION =====
+    # Dose parameter distributions
+    plt.subplot(3, 4, 5)
+    plt.hist(dose_features[:, 0], bins=20, alpha=0.7, color='skyblue', edgecolor='black')
+    plt.xlabel(dose_feature_names[0])
+    plt.ylabel('Count')
+    plt.title('Beam Energy Distribution')
+    
+    plt.subplot(3, 4, 6)
+    plt.hist(dose_features[:, 1], bins=20, alpha=0.7, color='lightgreen', edgecolor='black')
+    plt.xlabel(dose_feature_names[1])
+    plt.ylabel('Count')
+    plt.title('Field Size Distribution')
+    
+    plt.subplot(3, 4, 7)
+    plt.hist(dose_features[:, 2], bins=20, alpha=0.7, color='salmon', edgecolor='black')
+    plt.xlabel(dose_feature_names[2])
+    plt.ylabel('Count')
+    plt.title('Depth Distribution')
+    
+    plt.subplot(3, 4, 8)
+    plt.hist(dose_rates, bins=30, alpha=0.7, color='gold', edgecolor='black')
+    plt.xlabel('Dose Rate (%)')
+    plt.ylabel('Count')
+    plt.title('Dose Rate Distribution')
+    
+    # ===== DOSE RELATIONSHIPS =====
+    # Show relationship between parameters and dose
+    plt.subplot(3, 4, 9)
+    scatter = plt.scatter(dose_features[:, 2], dose_rates, 
+                         c=dose_features[:, 0], alpha=0.6, cmap='viridis')
+    plt.colorbar(scatter, label='Beam Energy (MV)')
+    plt.xlabel(dose_feature_names[2])
+    plt.ylabel('Dose Rate (%)')
+    plt.title('Dose vs Depth (colored by Energy)')
+    
+    plt.subplot(3, 4, 10)
+    scatter = plt.scatter(dose_features[:, 1], dose_rates, 
+                         c=dose_features[:, 0], alpha=0.6, cmap='plasma')
+    plt.colorbar(scatter, label='Beam Energy (MV)')
+    plt.xlabel(dose_feature_names[1])
+    plt.ylabel('Dose Rate (%)')
+    plt.title('Dose vs Field Size (colored by Energy)')
+    
+    # ===== SUMMARY STATISTICS =====
+    plt.subplot(3, 4, 11)
+    # Create a summary table visualization
+    organ_counts = [np.sum(organ_labels == organ) for organ in organ_types]
+    plt.bar(range(len(organ_types)), organ_counts, color=colors)
+    plt.xticks(range(len(organ_types)), organ_types)
+    plt.ylabel('Sample Count')
+    plt.title('Organ Sample Distribution')
+    
+    plt.subplot(3, 4, 12)
+    # Box plot of dose rates by beam energy
+    energy_levels = np.unique(dose_features[:, 0])
+    dose_by_energy = [dose_rates[dose_features[:, 0] == energy] for energy in energy_levels]
+    plt.boxplot(dose_by_energy, labels=[f'{int(e)} MV' for e in energy_levels])
+    plt.ylabel('Dose Rate (%)')
+    plt.xlabel('Beam Energy')
+    plt.title('Dose Distribution by Energy')
+    
+    plt.tight_layout()
+    plt.show()
+    
+    # Print summary statistics
+    print("\n📈 DATA SUMMARY STATISTICS")
+    print("-" * 30)
+    print(f"Organ Classification Dataset:")
+    print(f"  Total samples: {len(organ_features)}")
+    print(f"  Features: {len(organ_feature_names)}")
+    print(f"  Organ types: {len(organ_types)}")
+    for organ in organ_types:
+        count = np.sum(organ_labels == organ)
+        print(f"    {organ}: {count} samples")
+    
+    print(f"\nDose Prediction Dataset:")
+    print(f"  Total samples: {len(dose_features)}")
+    print(f"  Features: {len(dose_feature_names)}")
+    print(f"  Dose range: {dose_rates.min():.1f} - {dose_rates.max():.1f}%")
+    print(f"  Energy levels: {sorted(np.unique(dose_features[:, 0]))}")
+    
+    print(f"\n🎯 Feature Statistics:")
+    print(f"Organ Features (mean ± std):")
+    for i, name in enumerate(organ_feature_names):
+        mean_val = np.mean(organ_features[:, i])
+        std_val = np.std(organ_features[:, i])
+        print(f"  {name:15}: {mean_val:7.2f} ± {std_val:5.2f}")
+    
+    print(f"\nDose Features (mean ± std):")
+    for i, name in enumerate(dose_feature_names):
+        mean_val = np.mean(dose_features[:, i])
+        std_val = np.std(dose_features[:, i])
+        print(f"  {name:18}: {mean_val:7.2f} ± {std_val:5.2f}")
+
+
+def show_sample_data(organ_features, organ_labels, organ_feature_names,
+                    dose_features, dose_rates, dose_feature_names):
+    """Display sample training data to show what individual data points look like.
+    
+    Args:
+        organ_features: Organ classification features
+        organ_labels: Organ type labels  
+        organ_feature_names: Names of organ features
+        dose_features: Dose prediction features
+        dose_rates: Dose rate targets
+        dose_feature_names: Names of dose features
+    """
+    print("\n🔍 SAMPLE TRAINING DATA")
+    print("=" * 50)
+    
+    # Show sample organ data
+    print("🫁 ORGAN CLASSIFICATION SAMPLES")
+    print("-" * 35)
+    
+    organ_types = np.unique(organ_labels)
+    
+    # Create a nice table header
+    header = f"{'Organ Type':<10} | "
+    for name in organ_feature_names:
+        header += f"{name[:8]:<8} | "
+    print(header)
+    print("-" * len(header))
+    
+    # Show 3 samples per organ type
+    for organ in organ_types:
+        organ_indices = np.where(organ_labels == organ)[0]
+        sample_indices = organ_indices[:3]  # First 3 samples
+        
+        for i, idx in enumerate(sample_indices):
+            row = f"{organ:<10} | "
+            for j, feature_val in enumerate(organ_features[idx]):
+                row += f"{feature_val:8.2f} | "
+            print(row)
+        print()  # Empty line between organs
+    
+    # Show what these features mean
+    print("📝 FEATURE MEANINGS:")
+    print("  Area:        Size of organ contour (arbitrary units)")
+    print("  Perimeter:   Boundary length of organ contour")  
+    print("  Roundness:   How circular the shape is (0-1)")
+    print("  Eccentricity: How elongated the shape is (0-1)")
+    print("  Compactness: Ratio of area to perimeter squared")
+    print("  Aspect_Ratio: Width to height ratio")
+    
+    # Show sample dose data  
+    print(f"\n💊 DOSE PREDICTION SAMPLES")
+    print("-" * 30)
+    
+    # Create dose table header
+    dose_header = f"{'Sample':<8} | "
+    for name in dose_feature_names:
+        dose_header += f"{name[:12]:<12} | "
+    dose_header += f"{'Dose_Rate':<10}"
+    print(dose_header)
+    print("-" * len(dose_header))
+    
+    # Show 10 diverse dose samples
+    sample_indices = [0, 50, 100, 150, 200, 250, 300, 350, 400, 450]
+    
+    for i, idx in enumerate(sample_indices):
+        if idx < len(dose_features):
+            row = f"#{i+1:<7} | "
+            for j, feature_val in enumerate(dose_features[idx]):
+                if j == 0:  # Beam energy - show as integer
+                    row += f"{int(feature_val):<12} | "
+                elif j == 3:  # Angle - show as integer  
+                    row += f"{int(feature_val):<12} | "
+                else:  # Field size and depth - show with 1 decimal
+                    row += f"{feature_val:<12.1f} | "
+            row += f"{dose_rates[idx]:<10.1f}"
+            print(row)
+    
+    print(f"\n📝 DOSE FEATURE MEANINGS:")
+    print("  Beam_Energy_MV:     X-ray beam energy in megavolts")
+    print("  Field_Size_cm:      Radiation field size in centimeters") 
+    print("  Depth_cm:           Measurement depth in patient")
+    print("  Gantry_Angle_deg:   Machine rotation angle")
+    print("  Dose_Rate:          Calculated dose percentage")
+    
+    # Show some interesting patterns in the data
+    print(f"\n🔬 INTERESTING DATA PATTERNS:")
+    print("-" * 30)
+    
+    # Organ size patterns
+    for organ in organ_types:
+        mask = organ_labels == organ
+        avg_area = np.mean(organ_features[mask, 0])  # Area is first feature
+        avg_roundness = np.mean(organ_features[mask, 2])  # Roundness is third feature
+        print(f"{organ:>6}: Avg area={avg_area:6.1f}, Avg roundness={avg_roundness:.2f}")
+    
+    print(f"\nDose patterns:")
+    for energy in sorted(np.unique(dose_features[:, 0])):
+        mask = dose_features[:, 0] == energy
+        avg_dose = np.mean(dose_rates[mask])
+        print(f"{int(energy):>3} MV: Average dose rate = {avg_dose:.1f}%")
+    
+    # Show train/test split example
+    print(f"\n📊 TRAIN/TEST SPLIT PREVIEW:")
+    print("-" * 25)
+    
+    from sklearn.model_selection import train_test_split
+    
+    # Show organ split
+    X_train_org, X_test_org, y_train_org, y_test_org = train_test_split(
+        organ_features, organ_labels, test_size=0.3, random_state=42, stratify=organ_labels
+    )
+    
+    print(f"Organ data split:")
+    print(f"  Total samples: {len(organ_features)}")
+    print(f"  Training: {len(X_train_org)} samples ({len(X_train_org)/len(organ_features)*100:.1f}%)")
+    print(f"  Testing:  {len(X_test_org)} samples ({len(X_test_org)/len(organ_features)*100:.1f}%)")
+    
+    print(f"\nTraining set organ distribution:")
+    for organ in organ_types:
+        count = np.sum(y_train_org == organ)
+        print(f"  {organ}: {count} samples")
+    
+    print(f"\nTesting set organ distribution:")  
+    for organ in organ_types:
+        count = np.sum(y_test_org == organ)
+        print(f"  {organ}: {count} samples")
+    
+    # Show dose split
+    X_train_dose, X_test_dose, y_train_dose, y_test_dose = train_test_split(
+        dose_features, dose_rates, test_size=0.3, random_state=42
+    )
+    
+    print(f"\nDose data split:")
+    print(f"  Total samples: {len(dose_features)}")
+    print(f"  Training: {len(X_train_dose)} samples")
+    print(f"  Testing:  {len(X_test_dose)} samples")
+    print(f"  Training dose range: {y_train_dose.min():.1f} - {y_train_dose.max():.1f}%")
+    print(f"  Testing dose range:  {y_test_dose.min():.1f} - {y_test_dose.max():.1f}%")
+
+
 def main():
     """Main function demonstrating AI applications in medical physics."""
     print("🤖 AI/ML Applications in Medical Physics")
     print("=" * 50)
     print("Learn how machine learning can enhance medical physics workflows!")
     
-    # Part 1: Organ Classification
+    # Part 1: Generate and visualize organ data
     features, labels, feature_names = generate_synthetic_organ_data()
+    
+    # Part 2: Generate dose prediction data
+    dose_features, dose_rates, dose_feature_names = generate_dose_prediction_data()
+    
+    # NEW: Show sample training data  
+    show_sample_data(features, labels, feature_names,
+                    dose_features, dose_rates, dose_feature_names)
+    
+    # Part 3: Visualize the generated data
+    visualize_generated_data(features, labels, feature_names, 
+                           dose_features, dose_rates, dose_feature_names)
+    
+    # Part 3: Train models
     classifier, accuracy = train_organ_classifier(features, labels, feature_names)
     
-    # Part 2: Dose Prediction
-    dose_features, dose_rates, dose_feature_names = generate_dose_prediction_data()
+    # Part 4: Train dose predictor
     regressor, rmse = train_dose_predictor(dose_features, dose_rates, dose_feature_names)
     
-    # Part 3: QA Anomaly Detection
+    # Part 5: QA Anomaly Detection
     anomalies, qa_data = demonstrate_qa_anomaly_detection()
     
     # Interactive demonstration
